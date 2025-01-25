@@ -1,0 +1,37 @@
+version: '3.9'
+
+networks:
+  net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/8
+    driver_opts:
+      com.docker.network.bridge.name: "game"
+
+services:
+  player:
+    build: .
+    container_name: player
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    networks:
+      - net
+    depends_on:
+      - game
+
+  game:
+    image: alekslitvinenk/openvpn
+    container_name: game
+    networks:
+      - net
+    devices:
+      - /dev/net/tun
+    ports:
+      - "1194:1194/udp"
+      - "8000:8080/tcp"
+    environment:
+      - HOST_ADDR=62.173.146.31
+    volumes:
+      - ./openvpn-config.conf:/etc/openvpn/server.conf
+
