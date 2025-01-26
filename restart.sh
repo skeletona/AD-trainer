@@ -6,13 +6,13 @@ B=$(tput setaf 4)
 Z=$(tput sgr0)
 
 echo "${R}Stopping containers...${Z}"
-docker stop -t 0 player game
+docker stop -t 0 player game forcad
 
 echo "${R}Deleting containers...${Z}"
-docker rm game-player game
+docker rm player game forcad
 
 echo "${R}Deleting image...${Z}"
-docker rmi game-main_container | grep -v "sha256"
+docker rmi ad-trainer-player forcad | grep -v "sha256"
 
 echo "${B}Starting container...${R}"
 docker compose up -d --build

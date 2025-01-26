@@ -18,11 +18,20 @@ services:
     networks:
       - net
     depends_on:
-      - game
+      - vpn
 
-  game:
+  forcad:
+    build: ./ForcAD
+    container_name: forcad
+    networks:
+      - net
+    depends_on:
+      - vpn
+
+
+  vpn:
     image: alekslitvinenk/openvpn
-    container_name: game
+    container_name: vpn
     networks:
       - net
     devices:
