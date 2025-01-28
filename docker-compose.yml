@@ -3,37 +3,39 @@ version: '3.9'
 networks:
   net:
     driver: bridge
+    name: game
     ipam:
       config:
-        - subnet: 10.0.0.0/8
+      - subnet: 10.0.0.0/8
+        gateway: 10.0.0.1
     driver_opts:
       com.docker.network.bridge.name: "game"
 
 services:
   player:
     build: .
+    image: player
     container_name: player
     devices:
       - "/dev/net/tun:/dev/net/tun"
     networks:
-      - net
-    depends_on:
-      - vpn
+      net:
+        ipv4_address: 10.0.1.0
 
   forcad:
     build: ./ForcAD
+    image: forcad
     container_name: forcad
     networks:
-      - net
-    depends_on:
-      - vpn
-
+      net:
+        ipv4_address: 10.10.10.10
 
   vpn:
     image: alekslitvinenk/openvpn
     container_name: vpn
     networks:
-      - net
+      net:
+        ipv4_address: 10.0.0.2
     devices:
       - /dev/net/tun
     ports:

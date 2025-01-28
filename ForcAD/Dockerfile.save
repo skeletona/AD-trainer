@@ -1,0 +1,28 @@
+FROM debian
+
+COPY ./docker-compose /usr/lib/docker/cli-plugins/docker-compose
+COPY ./images.tar /images.tar
+COPY ./ForcAD /home/ForcAD
+WORKDIR /home/ForcAD
+
+RUN apt update && apt install -y docker.io python3-venv openvpn
+RUN dockerd & sleep 2 && docker load -i /images.tar && rm /images.tar
+RUN python3 -m venv /venv && /venv/bin/pip install -r cli/requirements.txt
+
+COPY ./server.conf /etc/openvpn/server.conf
+RUN mkdir -p /etc/openvpn/easy-rsa
+RUN cp -r /usr/share/easy-rsa/* /etc/openvpn/easy-rsa/
+
+RUN /etc/openvpn/easy-rsa/easyrsa init-pki
+RUN /etc/openvpn/easy-rsa/easyrsa build-ca
+RUN /etc/openvpn/easy-rsa/easyrsa gen-req server nopass
+RUN /etc/openvpn/easy-rsa/easyrsa sign-req server server
+RUN /etc/openvpn/easy-rsa/easyrsa gen-dh
+
+RUN cp /etc/openvpn/easy-rsa/pki/ca.crt /etc/openvpn/
+RUN cp /etc/openvpn/easy-rsa/pki/private/server.key /etc/openvpn/
+RUN cp /etc/openvpn/easy-rsa/pki/issued/server.crt /etc/openvpn/
+RUN cp /etc/openvpn/easy-rsa/pki/dh.pem /etc/openvpn/
+
+
+CMD openvpn --config /etc/openvpn/server.conf dockerd & sleep 2 && /venv/bin/python control.py start && tail -f /dev/null
