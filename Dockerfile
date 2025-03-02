@@ -1,9 +1,8 @@
 FROM debian
 
-RUN apt update && apt install -y docker.io fish nano vim curl openssh-server htop netcat-traditional neofetch
+RUN apt update && apt install -y docker.io fish nano vim curl openssh-server htop netcat-traditional neofetch docker-compose-plugin
 WORKDIR /home
 
-COPY ./docker-compose /usr/lib/docker/cli-plugins/docker-compose
 COPY ./services /home/services
 COPY ./motd /etc/motd
 COPY ./tmp /tmp
