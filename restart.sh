@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 R=$(tput setaf 1)
 G=$(tput setaf 2)
@@ -9,7 +10,8 @@ if [ ! -f ForcAD/images.tar ]; then
 	echo "${B}Looks like ForcAD is not built! Building Forcad ^_^${Z}"
 	cd ForcAD/ForcAD
 	python3 -m venv ./
-	./bin/pip install -r requirements.txt
+	./bin/pip install -r cli/requirements.txt
+	cp ../forcad_config.yml config.yml
 	./bin/python control.py setup
 	docker compose pull
 	docker compose build
