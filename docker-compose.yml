@@ -12,10 +12,10 @@ networks:
       com.docker.network.bridge.name: "game"
 
 services:
-  player:
-    build: .
-    image: player
-    container_name: player
+  vulnbox:
+    build: ./vulnbox
+    image: vulnbox
+    container_name: vulnbox
     devices:
       - "/dev/net/tun:/dev/net/tun"
     networks:
@@ -44,5 +44,5 @@ services:
     environment:
       - HOST_ADDR=62.173.146.31
     volumes:
-      - ./openvpn-config.conf:/etc/openvpn/server.conf
+      - ./vpn/openvpn-config.conf:/etc/openvpn/server.conf
 

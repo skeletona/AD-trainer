@@ -19,7 +19,7 @@ if [ ! -f ForcAD/images.tar ]; then
 fi
 
 echo "${R}Deleting containers...${Z}"
-docker rm --force forcad player vpn
+docker rm --force forcad vulnbox vpn
 
 echo "${R}Deleting network...${Z}"
 docker network rm game
