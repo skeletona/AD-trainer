@@ -1,5 +1,6 @@
 #!/bin/bash
 set -euo pipefail
+cd $(dirname "$BASH_SOURCE")
 
 R=$(tput setaf 1)
 G=$(tput setaf 2)
@@ -24,7 +25,7 @@ echo "${R}Deleting containers...${Z}"
 docker rm --force forcad vulnbox vpn
 
 echo "${R}Deleting network...${Z}"
-docker network rm game
+docker network rm game || true
 
 echo "${G}Starting simulation...${R}"
 docker compose up -d --build

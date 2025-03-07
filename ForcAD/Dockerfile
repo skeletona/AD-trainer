@@ -1,10 +1,8 @@
-FROM debian
+FROM alpine
 
 COPY ./images.tar /images.tar
-COPY ./ForcAD /home/ForcAD
 WORKDIR /home/ForcAD
+RUN apk add docker docker-compose python3
+COPY ./ForcAD /home/ForcAD
 
-RUN apt update && apt install -y docker.io python3-venv docker-compose-plugin
-RUN dockerd & sleep 2 && docker load -i /images.tar && rm /images.tar
-
-CMD dockerd & sleep 2 && /venv/bin/python control.py start && tail -f /dev/null
+CMD dockerd & sleep 2 && docker load -i /images.tar && ./bin/python control.py start && tail -f /dev/null
