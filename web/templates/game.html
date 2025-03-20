@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container game-dashboard">
+    <!-- Заголовок и таймер -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="ctf-card p-3 mb-3 animate__animated animate__fadeInDown">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="text-neon-green">🛡️ Active CTF Session</h1>
+                    <div id="timer" class="display-3 text-danger" 
+                         data-duration="{{ session.duration }}"
+                         style="font-family: 'Digital-7', monospace;">
+                         {{ session.duration|time:"H:i:s" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основные инструменты -->
+    <div class="row">
+        <!-- Левая колонка -->
+        <div class="col-md-8">
+            <div class="ctf-card p-4 mb-4">
+                <h3 class="text-info mb-4">🔧 Game Tools</h3>
+                
+                <div class="row g-4">
+                    <!-- VPN Config -->
+                    <div class="col-md-6">
+                        <div class="card tool-card hover-glow">
+                            <div class="card-body">
+                                <h5 class="card-title">🔒 VPN Connection</h5>
+                                <p class="card-text">Download config for game network</p>
+                                <a href="/static/configs/game.ovpn" 
+                                   class="btn btn-outline-success btn-sm"
+                                   download="ctf_vpn.ovpn">
+                                    Download Config ⬇️
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Game Board -->
+                    <div class="col-md-6">
+                        <div class="card tool-card hover-glow">
+                            <div class="card-body">
+                                <h5 class="card-title">📊 Live Scoreboard</h5>
+                                <p class="card-text">Real-time competition stats</p>
+                                <a href="{{ session.board_url }}" 
+                                   class="btn btn-outline-warning btn-sm"
+                                   target="_blank">
+                                    Open Board 🚀
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services Archive -->
+                    <div class="col-md-6">
+                        <div class="card tool-card hover-glow">
+                            <div class="card-body">
+                                <h5 class="card-title">📦 Services Package</h5>
+                                <p class="card-text">Download all game services</p>
+                                <a href="/static/archives/services.zip" 
+                                   class="btn btn-outline-info btn-sm"
+                                   download>
+                                    Download ZIP 📁
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SSH Access -->
+                    <div class="col-md-6">
+                        <div class="card tool-card hover-glow">
+                            <div class="card-body">
+                                <h5 class="card-title">🖥️ SSH Access</h5>
+                                <div class="input-group copy-group">
+                                    <input type="text" 
+                                           class="form-control text-mono" 
+                                           value="ssh root@10.0.1.0"
+                                           readonly>
+                                    <button class="btn btn-outline-secondary copy-btn" 
+                                            type="button"
+                                            data-password="pass">
+                                        Copy 📋
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="col-md-4">
+            <div class="ctf-card p-4">
+                <h3 class="text-warning mb-4">🚨 Quick Actions</h3>
+                
+                <!-- Экстренные кнопки -->
+                <div class="d-grid gap-3">
+                    <button class="btn btn-danger btn-action">
+                        🚩 Submit Flag
+                    </button>
+                    <button class="btn btn-warning btn-action">
+                        💡 Request Hint (-50pts)
+                    </button>
+                    <button class="btn btn-info btn-action">
+                        📞 Call Admin
+                    </button>
+                </div>
+
+                <!-- Прогресс -->
+                <div class="mt-4">
+                    <h5 class="text-success">🎯 Objectives</h5>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" 
+                             role="progressbar" 
+                             style="width: 45%">
+                            45% Complete
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Чат -->
+                <div class="mt-4">
+                    <h5 class="text-purple">💬 Team Chat</h5>
+                    <div class="chat-box">
+                        <div class="message incoming">Нашёл уязвимость в сервисе A</div>
+                        <div class="message outgoing">Проверь /api/v1/status</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.tool-card {
+    background: rgba(25, 28, 34, 0.9);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: transform 0.3s;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+}
+
+.hover-glow {
+    box-shadow: 0 0 15px rgba(0,123,255,0.2);
+}
+
+.text-mono {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+}
+
+.copy-group {
+    position: relative;
+}
+
+.copy-btn {
+    border-left: none;
+}
+
+.copy-btn:hover::after {
+    content: "Password: " attr(data-password);
+    position: absolute;
+    right: 0;
+    top: -30px;
+    background: #333;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.chat-box {
+    height: 200px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.message {
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 12px;
+    max-width: 80%;
+}
+
+.message.incoming {
+    background: rgba(40,167,69,0.2);
+    margin-right: auto;
+}
+
+.message.outgoing {
+    background: rgba(0,123,255,0.2);
+    margin-left: auto;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Таймер
+    function updateTimer() {
+        const timerElement = document.getElementById('timer');
+        const duration = parseInt(timerElement.dataset.duration) * 60; // в секундах
+        let secondsLeft = duration - Math.floor((Date.now() - startTime) / 1000);
+
+        if(secondsLeft <= 0) {
+            timerElement.textContent = '00:00:00';
+            return;
+        }
+
+        const hours = Math.floor(secondsLeft / 3600);
+        const minutes = Math.floor((secondsLeft % 3600) / 60);
+        const seconds = secondsLeft % 60;
+
+        timerElement.textContent = 
+            `${hours.toString().padStart(2, '0')}:` +
+            `${minutes.toString().padStart(2, '0')}:` +
+            `${seconds.toString().padStart(2, '0')}`;
+    }
+
+    const startTime = Date.now();
+    setInterval(updateTimer, 1000);
+
+    // Копирование SSH
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const input = this.parentElement.querySelector('input');
+            input.select();
+            document.execCommand('copy');
+            
+            // Показываем всплывающее уведомление
+            const originalText = this.textContent;
+            this.textContent = 'Copied! ✓';
+            setTimeout(() => {
+                this.textContent = originalText;
+            }, 2000);
+        });
+    });
+});
+</script>
+{% endblock %}

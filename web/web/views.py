@@ -17,13 +17,7 @@ def guides(request):
     return render(request, "guides.html")
 
 def game(request):
-    if request.method == 'POST':
-        try:
-            #subprocess.run(["docker", "compose", "up", "-d"], check=True)
-            raise
-            return render(request, 'game.html', {'result': 'ok'})
-        except:
-            return redirect(reverse('play', args=['error']))
+    return render(request, "game.html")
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'

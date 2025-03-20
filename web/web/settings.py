@@ -9,6 +9,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'web',
     'daphne',
     'channels',
     'django.contrib.admin',

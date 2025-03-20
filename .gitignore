@@ -2,3 +2,4 @@ images.tar
 db.sqlite3
 __pycache__/
 *.env
+games/*

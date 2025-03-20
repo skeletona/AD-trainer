@@ -16,25 +16,42 @@
 <div id="output" style="margin: 20px; padding: 10px; border: 1px solid #ccc;"></div>
 
 <script>
-    const output = document.getElementById('output');
-    const ws = new WebSocket('ws://' + window.location.host + '/ws');
-    
-    ws.onmessage = (event) => {
-        output.innerHTML += `<p>${event.data}</p>`;
-    };
-    
-    ws.onclose = () => {
-        output.innerHTML += '<p>Завершено</p>';
-    };
-    </script>
+    let ws;  // Объявляем переменную для WebSocket
+
+    // Функция для запуска WebSocket
+    function startWebSocket() {
+        const output = document.getElementById('output');
+        
+        // Создаем WebSocket
+        ws = new WebSocket('ws://' + window.location.host + '/ws');
+        
+        // Обработчик сообщений
+        ws.onmessage = (event) => {
+            output.innerHTML += `<p>${event.data}</p>`;
+        };
+        
+        // Обработчик закрытия соединения
+        ws.onclose = () => {
+            output.innerHTML += `<p>Game started! Redirecting to</p>`;
+            output.innerHTML += `<p href='/game'>/game</p>`;
+            window.location.href = '/game';
+        };
+    }
+
+    // Вешаем обработчик на кнопку
+    document.getElementById('start-btn').addEventListener('click', (e) => {
+        e.preventDefault();  // Отменяем стандартное поведение формы
+        startWebSocket();    // Запускаем WebSocket
+    });
+</script>
 
 {% if result == 'error' %}
 <a>something went wrong!</a>
 {% endif %}
 
 {% else %}
-<p>You are not logged in</p>
-<a href="login">Log In</a>
+<p>You are not logged in!</p>
+<a class="btn btn-primary" href="login">Log In</a>
 {% endif %}
 
 
