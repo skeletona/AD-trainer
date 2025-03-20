@@ -39,10 +39,11 @@ services:
     devices:
       - /dev/net/tun
     ports:
-      - "1194:1194/udp"
-      - "8000:8080/tcp"
+      - "1195:1195/udp"
+      - "8888:8080/tcp"
     environment:
-      - HOST_ADDR=62.173.146.31
+      - HOST_ADDR=185.186.26.128
+      - HOST_TUN_PORT=1195
     volumes:
       - ./vpn/openvpn-config.conf:/etc/openvpn/server.conf
 

@@ -10,9 +10,5 @@ fish -c 'set -U fish_greeting ""'
 
 if [ -f /tmp/images.tar ]; then
 	docker load -i /tmp/images.tar
-	rm -f /tmp/images.tar
+	rm /tmp/images.tar
 fi
-
-for service in /home/services/*; do
-	docker compose -f $service/docker-compose.yml create;
-done

@@ -1,6 +1,6 @@
-FROM debian
+FROM debian:testing
 
-RUN apt update && apt install -y docker.io fish nano vim curl openssh-server htop netcat-traditional neofetch docker-compose
+RUN apt update && apt install -y docker.io fish nano vim curl openssh-server htop netcat-traditional docker-compose
 WORKDIR /home
 
 COPY ./services /home/services

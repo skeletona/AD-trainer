@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container mt-5">
+    <div id="game-container" class="text-center">
+        <h2>Welcome to the Game!</h2>
+        <form method="POST" action="game">
+            {% csrf_token %}
+            <button id="start-btn" class="btn btn-success">Start Game</button>
+        </form>
+    </div>
+</div>
+
+<div id="output" style="margin: 20px; padding: 10px; border: 1px solid #ccc;"></div>
+
+<script>
+    const output = document.getElementById('output');
+    const ws = new WebSocket('ws://' + window.location.host + '/ws');
+    
+    ws.onmessage = (event) => {
+        output.innerHTML += `<p>${event.data}</p>`;
+    };
+    
+    ws.onclose = () => {
+        output.innerHTML += '<p>Завершено</p>';
+    };
+    </script>
+
+{% if result == 'error' %}
+<a>something went wrong!</a>
+{% endif %}
+
+{% else %}
+<p>You are not logged in</p>
+<a href="login">Log In</a>
+{% endif %}
+
+
+{% endblock %}
