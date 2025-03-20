@@ -1,5 +1,4 @@
-vulnbox/tmp/images.tar
-ForcAD/images.tar
-web/db.sqlite3
-web/__pycache__/
+images.tar
+db.sqlite3
+__pycache__/
 *.env
