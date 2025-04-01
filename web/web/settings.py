@@ -4,12 +4,11 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("SECRET_KEY")
-DEBUG = False
+DEBUG = config("DEBUG")
 
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'web',
     'daphne',
     'channels',
     'django.contrib.admin',
@@ -18,6 +17,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'web',
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -114,3 +115,5 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+AUTH_USER_MODEL = 'core.User'

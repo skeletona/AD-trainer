@@ -1,23 +1,31 @@
 from channels.generic.websocket import WebsocketConsumer
 from django.utils.timezone import now
 from django.db.models import Max
-from .models import Game
+from core.models import User
+from .forms import Game, CustomUserCreationForm
+from django.contrib.auth import get_user_model
 from os import popen, system
+
+User = get_user_model()
 
 class Consumer(WebsocketConsumer):
     def connect(self):
         self.accept()
         try:
             self.send('Starting game...')
+
+            user = self.scope['user']
+            
             system('docker rm --force vpn && docker compose up vpn -d')
             game = Game.objects.create(
                 start=now(),
                 duration=540,  # 9 часов
                 services=["bluwal", "explorers", "neftetochka", "oilmarket"],
-                players=["user1"] #TODO
+                players=[user.username]
             )
             game_id = Game.objects.aggregate(max_id=Max('id'))['max_id']
             system(f'mkdir ../games/{game_id}')
+
 
             self.send('Generating VPN configs...')
             for i in range(3):
@@ -30,6 +38,9 @@ class Consumer(WebsocketConsumer):
             self.send('Creating archive...')
             system(f'7z a ../games/{game_id}/services.7z ../games/{game_id}/* {" ".join(map(lambda x: "../vulnbox/services/" + x, game.services))} ')
             self.send('Done!')
+
+            user.ingame = True
+            user.save()
 
             self.send('Success!')
 

@@ -10,7 +10,7 @@
   <div class="bs-component">
     <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">A/D trainer</a>
+        <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -18,43 +18,32 @@
         <div class="collapse navbar-collapse" id="navbarColor03">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
+              <a class="nav-link" href="play">Play</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Guides</a>
+              <a class="nav-link" href="guides">Guides</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" href="about">About</a>
             </li>
           </ul>
           {% if user.is_authenticated %}
-          <form class="d-flex">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
-          </form>
+          <a class="me-4 fs-3 mb-1 text-dark fw-bold text-decoration-none" href="profile">{{ user.username }}</a>
+          <div class="text-end">
+            <form method="POST" action="logout">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">Logout</button>
+            </form>
+          </div>
           {% else %}
-            <button href="login" class="btn btn-secondary">Login</button>
+          <form method="POST" action="login">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary">Login</button>
+          </form>
+
           {% endif %}
         </div>
       </div>
-    </nav>
-    
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="/">A/D Trainer</a>
-            <div class="ms-auto d-flex gap-2">
-                <a class="nav-link" href="/">Home</a>
-                <a class="nav-link" href="/profile">Profile</a>
-                <a class="nav-link" href="/guides">Guides</a>
-                {% if user.is_authenticated %}
-                <form action="logout" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-primary" type="submit" id="button-addon2">Logout</button>
-                </form>
-                {% else %}
-                <a class="btn btn-primary" href="/login">Login</a>
-                {% endif %}
-            </div>
-        </div>
     </nav>
 
     <div class="container mt-5">

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
+from .forms import CustomUserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login, authenticate
 from django.urls import reverse_lazy
@@ -20,7 +21,6 @@ def game(request):
 
 def login_view(request):
     if request.method == 'POST':
-        print(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
@@ -31,9 +31,8 @@ def login_view(request):
     return render(request, 'login.html')
 
 def register(request):
-    print('register')
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
