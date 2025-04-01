@@ -6,35 +6,29 @@
 <a>You are already logged in!</a>
 <form action="{% url 'logout' %}" method="post">
     {% csrf_token %}
-    <button type="submit">Logout</button>
+    <button class="btn btn-primary" type="submit">Logout</button>
 </form>
-{% else %}   
-<h2>Login</h2>
-    <div class="col-md-4">
-        <form method="post">
-            {% csrf_token %}
-            <p>
-                <label for="id_username">Username:</label>
-                <br>
-                <input class="form-control" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
-                
-                
-            </p>
-            
-            
-            <p>
-                <label for="id_password">Password:</label>
-                <br>
-                <input class="form-control" type="password" name="password" autocomplete="current-password" required="" id="id_password">
-                
-                
-                
-                
-            </p>
-            <button class="btn btn-primary" type="submit">Login</button>
-        </form>
-    </div>
+{% else %}
+{% if error %}
+<p class="text-danger">{{ error }}</p>
+{% endif %}
+<div class="col-md-4">
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label for="id_username">Username:</label>
+            <p></p>
+            <input class="form-control" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
+        </p>
+        <p>
+            <label for="id_password">Password:</label>
+            <p></p>
+            <input class="form-control" type="password" name="password" autocomplete="current-password" required="" id="id_password">
+        </p>
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+</div>
 <br>
-<p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+<p>Don't have an account? <a class="btn btn-outline-primary" href="register">Register</a></p>
 {% endif %}
 {% endblock %}

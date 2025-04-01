@@ -9,9 +9,9 @@ urlpatterns = [
     path('play', views.play, name='play'),
     path('game', views.game, name='game'),
     path('guides', views.guides, name='guides'),
-    path('register', views.CustomRegisterView.as_view(), name='register'),
-    path('login', views.CustomLoginView.as_view(), name='login'),
-    path('logout', views.CustomLogoutView.as_view(), name='logout'),
+    path('register', views.register, name='register'),
+    path('login', views.login_view, name='login'),
+    path('logout', views.Logout.as_view(next_page='home'), name='logout'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

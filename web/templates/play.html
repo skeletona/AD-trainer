@@ -16,21 +16,17 @@
 <div id="output" style="margin: 20px; padding: 10px; border: 1px solid #ccc;"></div>
 
 <script>
-    let ws;  // Объявляем переменную для WebSocket
+    let ws;
 
-    // Функция для запуска WebSocket
     function startWebSocket() {
         const output = document.getElementById('output');
         
-        // Создаем WebSocket
         ws = new WebSocket('ws://' + window.location.host + '/ws');
         
-        // Обработчик сообщений
         ws.onmessage = (event) => {
             output.innerHTML += `<p>${event.data}</p>`;
         };
         
-        // Обработчик закрытия соединения
         ws.onclose = () => {
             output.innerHTML += `<p>Game started! Redirecting to</p>`;
             output.innerHTML += `<p href='/game'>/game</p>`;
@@ -38,10 +34,9 @@
         };
     }
 
-    // Вешаем обработчик на кнопку
     document.getElementById('start-btn').addEventListener('click', (e) => {
-        e.preventDefault();  // Отменяем стандартное поведение формы
-        startWebSocket();    // Запускаем WebSocket
+        e.preventDefault();
+        startWebSocket();
     });
 </script>
 
@@ -51,7 +46,8 @@
 
 {% else %}
 <p>You are not logged in!</p>
-<a class="btn btn-primary" href="login">Log In</a>
+<a class="btn btn-primary" href="login">Login</a>
+<a class="btn btn-outline-primary" href="register">Register</a>
 {% endif %}
 
 

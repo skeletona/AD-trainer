@@ -1,11 +1,10 @@
-from django.shortcuts import render, redirect, reverse
-from web.models import CustomUserCreationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.decorators.http import require_http_methods
-from django.http import JsonResponse
+from django.contrib.auth import login, authenticate
 from django.urls import reverse_lazy
-import subprocess
+
 
 def home(request):
     return render(request, "home.html")
@@ -19,14 +18,30 @@ def guides(request):
 def game(request):
     return render(request, "game.html")
 
-class CustomLoginView(LoginView):
-    template_name = 'login.html'
+def login_view(request):
+    if request.method == 'POST':
+        print(request.POST)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        return render(request, 'login.html', {'error': 'Неверный логин или пароль.'})
+    return render(request, 'login.html')
 
-class CustomRegisterView(CreateView):
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'register.html'
+def register(request):
+    print('register')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+        return render(request, 'register.html', {'form': form})
+    form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
 
-class CustomLogoutView(LogoutView):
+class Logout(LogoutView):
     next_page = reverse_lazy('home')
 

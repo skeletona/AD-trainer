@@ -6,15 +6,35 @@
 <a>You are already logged in!</a>
 <form action="{% url 'logout' %}" method="post">
     {% csrf_token %}
-    <button type="submit">Logout</button>
+    <button class="btn btn-primary" type="submit">Logout</button>
 </form>
 {% else %}
 <h2>Register</h2>
+{% if form.errors %}
+{{ form.errors }}
+{% endif %}
+<div class="col-md-4">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
+        <p>
+            <label for="id_username">Username:</label>
+            <p></p>
+            <input class="form-control" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
+        </p>
+        <p>
+            <label for="id_password">Password:</label>
+            <p></p>
+            <input class="form-control" type="password" name="password1" autocomplete="current-password" required="" id="id_password">
+        </p>
+        <p>
+            <label for="id_password">Confirm password:</label>
+            <p></p>
+            <input class="form-control" type="password" name="password2" autocomplete="current-password" required="" id="id_password">
+        </p>
+        <button class="btn btn-primary" type="submit">Register</button>
     </form>
-<p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+</div>
+<br>
+<p>Already have an account? <a class="btn btn-outline-primary" href="{% url 'login' %}">Login</a></p>
 {% endif %}
 {% endblock %}

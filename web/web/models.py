@@ -1,10 +1,35 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.contrib.auth.forms import UserCreationForm
-from django.utils.timezone import now
-class CustomUserCreationForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
-        fields = ('username',)  # Только логин и пароль
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+
+User = get_user_model()
+
+class LoginForm(AuthenticationForm):
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username and password:
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                raise ValidationError(
+                    self.error_messages['invalid_username'],
+                    code='invalid_username',
+                )
+            
+            if not user.check_password(password):
+                raise ValidationError(
+                    self.error_messages['invalid_password'],
+                    code='invalid_password',
+                )
+
+            # Стандартная проверка аутентификации
+            self.confirm_login_allowed(user)
+
+        return self.cleaned_data
 
 class Game(models.Model):
     start = models.DateTimeField(
