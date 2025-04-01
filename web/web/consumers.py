@@ -1,8 +1,7 @@
 from channels.generic.websocket import WebsocketConsumer
 from django.utils.timezone import now
 from django.db.models import Max
-from core.models import User
-from .forms import Game, CustomUserCreationForm
+from core.models import Game
 from django.contrib.auth import get_user_model
 from os import popen, system
 
@@ -39,7 +38,7 @@ class Consumer(WebsocketConsumer):
             system(f'7z a ../games/{game_id}/services.7z ../games/{game_id}/* {" ".join(map(lambda x: "../vulnbox/services/" + x, game.services))} ')
             self.send('Done!')
 
-            user.ingame = True
+            user.game = game_id
             user.save()
 
             self.send('Success!')
