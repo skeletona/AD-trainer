@@ -3,8 +3,6 @@ from django.db import models
 
 
 class Game(models.Model):
-    id = models.IntegerField(primary_key=True)
-
     start = models.DateTimeField(
         verbose_name="Время начала",
         auto_now_add=False,
@@ -31,14 +29,13 @@ class Game(models.Model):
         db_table = 'games'
 
     def __str__(self):
-        return f"Игра от {self.start}"
+        return f"Игра №{self.id}"
 
 
 class User(AbstractUser):
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True, db_column="game")
     first_name = None
     last_name = None
-    email = None
     
     class Meta:
         db_table = 'users'

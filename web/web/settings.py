@@ -120,3 +120,5 @@ CHANNEL_LAYERS = {
 }
 
 AUTH_USER_MODEL = 'core.User'
+
+LOGIN_URL = 'login'

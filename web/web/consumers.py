@@ -12,36 +12,32 @@ class Consumer(WebsocketConsumer):
         self.accept()
         try:
             self.send('Starting game...')
-
             user = self.scope['user']
-            
-            system('docker rm --force vpn && docker compose up vpn -d')
-            game = Game.objects.create(
-                start=now(),
-                duration=540,  # 9 часов
-                services=["bluwal", "explorers", "neftetochka", "oilmarket"],
-                players=[user.username]
-            )
-            game_id = Game.objects.aggregate(max_id=Max('id'))['max_id']
-            system(f'mkdir ../games/{game_id}')
 
+            if user.is_authenticated:
+                system('docker rm --force vpn && docker compose up vpn -d')
+                game = Game.objects.create(
+                    start=now(),
+                    duration=540,  # 9 часов
+                    services=["bluwal", "explorers", "neftetochka", "oilmarket"],
+                    players=[user.username]
+                )
+                game_id = Game.objects.aggregate(max_id=Max('id'))['max_id']
+                
+                system(f'rm -rf "../games/{game_id}"')
+                system(f'mkdir ../games/{game_id}')
 
-            self.send('Generating VPN configs...')
-            for i in range(3):
-                system('docker exec -d vpn ./genclient.sh')
-            configs = popen('docker exec vpn ./listconfigs.sh').read().strip().split('\n')
-            for i, vpn_id in enumerate(configs):
-                system(f'docker exec vpn /opt/Dockovpn/getconfig.sh {vpn_id} > ../games/{game_id}/{i}.ovpn')
-            self.send('Done!')
+                self.send('Creating archive...')
+                system(f'7z a ../games/{game_id}/services.7z ../games/{game_id}/* {" ".join(map(lambda x: "../vulnbox/services/" + x, game.services))} > /dev/null')
+                self.send('Done!')
 
-            self.send('Creating archive...')
-            system(f'7z a ../games/{game_id}/services.7z ../games/{game_id}/* {" ".join(map(lambda x: "../vulnbox/services/" + x, game.services))} ')
-            self.send('Done!')
+                user.game = game
+                user.save()
+                self.send("User game updated!")
 
-            user.game = game_id
-            user.save()
-
-            self.send('Success!')
+                self.send('Success!')
+            else:
+                self.send("User is not authenticated!")
 
         except Exception as e:
             print("Error:", e)

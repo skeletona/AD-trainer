@@ -10,27 +10,10 @@
 </form>
 {% else %}
 <h2>Register</h2>
-{% if form.errors %}
-{{ form.errors }}
-{% endif %}
 <div class="col-md-4">
     <form method="post">
         {% csrf_token %}
-        <p>
-            <label for="id_username">Username:</label>
-            <p></p>
-            <input class="form-control" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
-        </p>
-        <p>
-            <label for="id_password">Password:</label>
-            <p></p>
-            <input class="form-control" type="password" name="password1" autocomplete="current-password" required="" id="id_password">
-        </p>
-        <p>
-            <label for="id_password">Confirm password:</label>
-            <p></p>
-            <input class="form-control" type="password" name="password2" autocomplete="current-password" required="" id="id_password">
-        </p>
+        {{ form.as_p }}
         <button class="btn btn-primary" type="submit">Register</button>
     </form>
 </div>
