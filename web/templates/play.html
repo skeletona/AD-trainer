@@ -5,10 +5,11 @@
 {% if user.is_authenticated %}
 <div class="container mt-5">
     <div id="game-container" class="text-center">
-        <h2>Welcome to the Game!</h2>
+        <h2>Ready?</h2>
+        <br>
         <form method="POST" action="game">
             {% csrf_token %}
-            <button id="start-btn" class="btn btn-success">Start Game</button>
+            <button id="start-btn" class="btn btn-danger">Start Game</button>
         </form>
     </div>
 </div>

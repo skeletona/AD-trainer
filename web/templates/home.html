@@ -4,11 +4,83 @@
 
 {% block content %}
     <div class="container text-center mt-4">
-        <h1 class="display-4">Welcome to CTF Trainer</h1>
-        <p class="lead">Get ready for an exciting challenge! Start training with our CTF platform.</p>
+        <h1 class="display-4">A/D Trainer</h1>
+        <p class="lead">Get ready for an exciting challenge! Start training with our platform.</p>
         <hr class="my-4">
-        <p>Choose a category and begin your journey.</p>
+        <p>Begin your A/D journey</p>
         <a class="btn btn-primary btn-lg" href="/play" role="button">Play!</a>
-        <a class="btn btn-outline-light btn-lg" href="/about" role="button">About</a>
+    </div>
+
+    <div class="container p-4 text-center">
+        <div class="row">
+            <div class="col-6">
+                <div class="card bg-primary" style="height: 350px;">
+                    <div class="card-header">
+                        <h4>What is CTF?</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            CTF is a cybersecurity competition. Teams of 5 people solve as many tasks as possible in 24 hours. <br>
+                            Common types of tasks:<br>
+                            <div class="d-flex justify-content-center">
+                                <table>
+                                    <tr>
+                                        <td>Web</td>
+                                        <td>art of hacking websites</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PWN</td>
+                                        <td>art of binary exploitation</td>
+                                        </tr>
+                                    <tr>
+                                        <td>OSINT</td>
+                                        <td>art of searching in the internet</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Forensics</td>
+                                        <td>art of investigating cybercrime</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Steganography</td>
+                                        <td>the art of hiding information</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cryptography</td>
+                                        <td>art of decrypting ciphers</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Reverse engineering</td>
+                                        <td>art of reading binary code</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        <p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card bg-primary" style="height: 350px;">
+                    <div class="card-header"><h4>What is A/D?</h4></div>
+                    <div class="card-body">
+                    <p class="card-text">Attack-Defense is a subgenre of CTF. It's harder, but funnier.<br><br>
+                        In A/D every team has same several running services with vulnarabilities.
+                        Teams find vulnarabilities, fix them in their services and write exploits to hack other's services.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-primary m-4 text-center" style="height: 200px;">
+        <div class="card-header">
+            <h4>What is A/D trainer?</h4>
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                A/D trainer lets you play A/D without friends, teams, at any time and where you want.<br> 
+                If you want to prepare for an A/D competition, you are in the right place.<br>
+                It's basically a simulation of a real game, only for you.
+            <p>
+        </div>
     </div>
 {% endblock %}

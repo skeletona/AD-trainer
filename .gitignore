@@ -1,6 +1,8 @@
+migrations/
 images.tar
 db.sqlite3
 __pycache__/
+*.py[cod]
 *.env
 games/*
 web/log

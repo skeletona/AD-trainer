@@ -35,12 +35,10 @@ class Game(models.Model):
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=30, unique=True, primary_key=True)
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True, db_column="game")
     first_name = None
     last_name = None
-    is_active = None
     email = None
-
+    
     class Meta:
         db_table = 'users'
