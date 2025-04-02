@@ -1,30 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.utils.timezone import now
 import os
 
 def home(request):
     return render(request, "home.html")
-
-@login_required
-def play(request):
-    if request.user.game is not None:
-        return redirect('game')
-    else:
-        return render(request, "play.html")
-
-@login_required
-def guides(request):
-    return render(request, "guides.html")
-
-@login_required
-def game(request):
-    return render(request, "game.html")
 
 def login_view(request):
     if request.method == 'POST':
@@ -47,11 +32,38 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 @login_required
+def play(request):
+    if request.user.game is not None:
+        return redirect('game')
+    else:
+        return render(request, "play.html")
+
+@login_required
+def guides(request):
+    return render(request, "guides.html")
+
+@login_required
+def game(request):
+    return render(request, "game.html", {'time': int((request.user.game.end - now()).total_seconds())})
+
+@login_required
 def vpn(request):
     os.system('docker exec -d vpn ./genclient.sh')
     config = os.popen('docker exec vpn sh -c "./getconfig.sh \$(ls /opt/Dockovpn_data/clients/ -t | head -1)"').read()
     response = HttpResponse(config, content_type="application/octet-stream")
     response["Content-Disposition"] = 'attachment; filename="game.ovpn"'
+    return response
+
+@login_required
+def board(request):
+    return redirect("http://10.0.0.2")
+
+
+@login_required
+def zip(request):
+    zip = open(f'../games/{request.user.game.id}/services.7z', 'rb')
+    response = HttpResponse(zip, content_type="application/octet-stream")
+    response["Content-Disposition"] = 'attachment; filename="services.7z"'
     return response
 
 class Logout(LogoutView):

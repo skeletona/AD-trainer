@@ -2,12 +2,11 @@
 
 {% block content %}
 <div class="container game-dashboard">
-    <!-- Заголовок и таймер -->
     <div class="row mb-4">
         <div class="col-md-12">
             <div class="ctf-card p-3 mb-3 animate__animated animate__fadeInDown">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h1 class="text-neon-green">🛡️ Active CTF Session</h1>
+                    <h1 class="text-neon-green">🛡️ Active Game</h1>
                     <div id="timer" class="display-3 text-danger" 
                          data-duration="{{ session.duration }}"
                          style="font-family: 'Digital-7', monospace;">
@@ -18,64 +17,77 @@
         </div>
     </div>
 
-    <!-- Основные инструменты -->
     <div class="row">
-        <!-- Левая колонка -->
         <div class="col-md-8">
             <div class="ctf-card p-4 mb-4">
                 <h3 class="text-info mb-4">🔧 Game Tools</h3>
                 
                 <div class="row g-4">
-                    <!-- VPN Config -->
                     <div class="col-md-6">
-                        <div class="card tool-card hover-glow">
+                        <div class="card tool-card border-warning h-100">
                             <div class="card-body">
-                                <h5 class="card-title">🔒 VPN Connection</h5>
-                                <p class="card-text">Download config for game network</p>
+                                <h5 class="card-title">📦 Downloads</h5>
+                                <p class="card-text">Files for you</p>
                                 <a href="vpn" 
-                                   class="btn btn-outline-success btn-sm"
-                                   download="ctf_vpn.ovpn">
-                                    Download Config ⬇️
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Game Board -->
-                    <div class="col-md-6">
-                        <div class="card tool-card hover-glow">
-                            <div class="card-body">
-                                <h5 class="card-title">📊 Live Scoreboard</h5>
-                                <p class="card-text">Real-time competition stats</p>
-                                <a href="{{ session.board_url }}" 
                                    class="btn btn-outline-warning btn-sm"
-                                   target="_blank">
-                                    Open Board 🚀
+                                   download="ctf_vpn.ovpn">
+                                   🔒 VPN Config
                                 </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Services Archive -->
-                    <div class="col-md-6">
-                        <div class="card tool-card hover-glow">
-                            <div class="card-body">
-                                <h5 class="card-title">📦 Services Package</h5>
-                                <p class="card-text">Download all game services</p>
-                                <a href="/static/archives/services.zip" 
-                                   class="btn btn-outline-info btn-sm"
+                                <a href="/zip" 
+                                   class="btn btn-outline-warning btn-sm"
                                    download>
-                                    Download ZIP 📁
+                                    Services ZIP 📁
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- SSH Access -->
                     <div class="col-md-6">
-                        <div class="card tool-card hover-glow">
+                        <div class="card tool-card border-success h-100">
                             <div class="card-body">
-                                <h5 class="card-title">🖥️ SSH Access</h5>
+                                <h5 class="card-title">🚀 Links</h5>
+                                <p class="card-text">Track points and send payloads</p>
+                                <a href="board" 
+                                   class="btn btn-outline-success btn-sm"
+                                   target="_blank">
+                                   📊 Open Board 
+                                </a>
+                                <a href="farm" 
+                                   class="btn btn-outline-success btn-sm"
+                                   target="_blank">
+                                   📊 Open Farm
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card tool-card border-info h-100">
+                          <div class="card-body">
+                            <h5 class="card-title">🚀 Links</h5>
+                            <p class="card-text">
+                              <a data-bs-toggle="tooltip" title="Server with your services">Your vulnbox: </a><a target="_blank" href="http://10.0.1.0">10.0.1.0</a><br>
+                              <a data-bs-toggle="tooltip" title="You should attack it">Enemy vulnbox: </a><a target="_blank" href="http://10.0.2.0">10.0.2.0</a><br>
+                              <a data-bs-toggle="tooltip" title="Scoreboard">ForcAD: </a><a target="_blank" href="http://10.0.2.0">10.0.0.2</a><br>
+                              <a data-bs-toggle="tooltip" title="Exploit automation tool">Farm: </a><a target="_blank" href="http://10.0.1.0:5000">10.0.1.0:5000</a><br>
+                              <a data-bs-toggle="tooltip" title="Traffic analyzer">Packmate: </a><a target="_blank" href="http://10.0.1.0:65000">10.0.1.0:65000</a><br>
+                            </p>
+
+                            <script>
+                              var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                              tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                return new bootstrap.Tooltip(tooltipTriggerEl)
+                              })
+                            </script>
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="col-md-6">
+                        <div class="card tool-card border-secondary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">🖥️ SSH</h5>
+                                <p class="card-text">Connect to your server</p>
                                 <div class="input-group copy-group">
                                     <input type="text" 
                                            class="form-control text-mono" 
@@ -87,6 +99,10 @@
                                         Copy 📋
                                     </button>
                                 </div>
+                                <br>
+                                <div class="input-group copy-group">
+                                    <p class="my-0">password: pass</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -94,12 +110,60 @@
             </div>
         </div>
 
-        <!-- Правая колонка -->
         <div class="col-md-4">
+            <div class="ctf-card p-4">
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-6">
+                        <div class="card border-0">
+                            <div class="card-body p-3">
+                                <h5 class="text-center mb-4 text-muted">GAME TIMER</h5>
+                                <div class="d-flex justify-content-center align-items-baseline">
+                                    <div class="text-center px-2">
+                                        <div id="hours" class="display-6 fw-light">00</div>
+                                        <div class="text-muted small mt-1">HRS</div>
+                                    </div>
+                                    <div class="text-muted display-6 px-1">:</div>
+                                    <div class="text-center px-2">
+                                        <div id="minutes" class="display-6 fw-light">00</div>
+                                        <div class="text-muted small mt-1">MIN</div>
+                                    </div>
+                                    <div class="text-muted display-6 px-1">:</div>
+                                    <div class="text-center px-2">
+                                        <div id="seconds" class="display-6 fw-light">00</div>
+                                        <div class="text-muted small mt-1">SEC</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                function timer() {
+                	distance -= 1;
+			if (distance < 0) {
+				clearInterval(x);
+				window.location.href = "/archive";
+			};
+
+			const hours = Math.floor(distance / 3600);
+			const minutes = Math.floor(distance % 3600 / 60);
+			seconds = Math.floor(distance % 60);
+
+			document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+			document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+			document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+                }
+
+		distance = {{ time }};
+		timer();
+		const x = setInterval(timer, 1000);
+                </script>
+            </div>
+
             <div class="ctf-card p-4">
                 <h3 class="text-warning mb-4">🚨 Quick Actions</h3>
                 
-                <!-- Экстренные кнопки -->
                 <div class="d-grid gap-3">
                     <button class="btn btn-danger btn-action">
                         🚩 Submit Flag

@@ -4,7 +4,7 @@ networks:
     name: game
     ipam:
       config:
-      - subnet: 10.0.0.0/8
+      - subnet: 10.0.0.0/16
         gateway: 10.0.0.1
     driver_opts:
       com.docker.network.bridge.name: "game"
@@ -26,14 +26,14 @@ services:
     container_name: forcad
     networks:
       net:
-        ipv4_address: 10.10.10.10
+        ipv4_address: 10.0.0.2
 
   vpn:
     image: alekslitvinenk/openvpn
     container_name: vpn
     networks:
       net:
-        ipv4_address: 10.0.0.2
+        ipv4_address: 10.0.0.3
     devices:
       - /dev/net/tun
     ports:

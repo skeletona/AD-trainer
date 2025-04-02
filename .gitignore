@@ -6,3 +6,4 @@ __pycache__/
 *.env
 games/*
 web/log
+restart_docker.sh
