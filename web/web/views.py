@@ -5,7 +5,6 @@ from django.contrib.auth.views import LogoutView
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.utils.timezone import now
 import os
 
 def home(request):
@@ -44,7 +43,23 @@ def guides(request):
 
 @login_required
 def game(request):
-    return render(request, "game.html", {'time': int((request.user.game.end - now()).total_seconds())})
+    game = request.user.game
+    if game:
+        return render(request, "game.html", {'time': game.seconds_left()})
+    return redirect('play')
+
+@login_required
+def end_game(request):
+    user = request.user
+    if user.game:
+        user.game.end_game()
+        user.game = None
+        user.save()
+        return redirect('game_results')
+    return redirect('play')
+
+def game_results(request):
+    return render(request, 'game_results.html')
 
 @login_required
 def vpn(request):

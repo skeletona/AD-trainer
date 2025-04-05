@@ -65,12 +65,13 @@
                         <div class="card tool-card border-info h-100">
                           <div class="card-body">
                             <h5 class="card-title">🚀 Links</h5>
+                            <p class="card-text">Works only if you are connected to VPN!</p>
                             <p class="card-text">
-                              <a data-bs-toggle="tooltip" title="Server with your services">Your vulnbox: </a><a target="_blank" href="http://10.0.1.0">10.0.1.0</a><br>
-                              <a data-bs-toggle="tooltip" title="You should attack it">Enemy vulnbox: </a><a target="_blank" href="http://10.0.2.0">10.0.2.0</a><br>
-                              <a data-bs-toggle="tooltip" title="Scoreboard">ForcAD: </a><a target="_blank" href="http://10.0.2.0">10.0.0.2</a><br>
-                              <a data-bs-toggle="tooltip" title="Exploit automation tool">Farm: </a><a target="_blank" href="http://10.0.1.0:5000">10.0.1.0:5000</a><br>
-                              <a data-bs-toggle="tooltip" title="Traffic analyzer">Packmate: </a><a target="_blank" href="http://10.0.1.0:65000">10.0.1.0:65000</a><br>
+                                <a data-bs-toggle="tooltip" title="Server with your services">Your vulnbox: </a><a target="_blank" href="http://10.0.1.0">10.0.1.0</a><br>
+                                <a data-bs-toggle="tooltip" title="You should attack it">Enemy vulnbox: </a><a target="_blank" href="http://10.0.2.0">10.0.2.0</a><br>
+                                <a data-bs-toggle="tooltip" title="Scoreboard">ForcAD: </a><a target="_blank" href="http://10.0.2.0">10.0.0.2</a><br>
+                                <a data-bs-toggle="tooltip" title="Exploit automation tool">Farm: </a><a target="_blank" href="http://10.0.1.0:5000">10.0.1.0:5000</a><br>
+                                <a data-bs-toggle="tooltip" title="Traffic analyzer">Packmate: </a><a target="_blank" href="http://10.0.1.0:65000">10.0.1.0:65000</a><br>
                             </p>
 
                             <script>
@@ -90,13 +91,13 @@
                                 <p class="card-text">Connect to your server</p>
                                 <div class="input-group copy-group">
                                     <input type="text" 
-                                           class="form-control text-mono" 
-                                           value="ssh root@10.0.1.0"
-                                           readonly>
+                                            class="form-control text-mono" 
+                                            value="ssh root@10.0.1.0"
+                                            readonly>
                                     <button class="btn btn-outline-secondary copy-btn" 
                                             type="button"
                                             data-password="pass">
-                                        Copy 📋
+                                            Copy 📋
                                     </button>
                                 </div>
                                 <br>
@@ -105,6 +106,22 @@
                                 </div>
                             </div>
                         </div>
+
+                        <script>
+                            document.querySelectorAll('.copy-btn').forEach(btn => {
+                                btn.addEventListener('click', function() {
+                                    const input = this.parentElement.querySelector('input');
+                                    input.select();
+                                    document.execCommand('copy');
+                                    
+                                    const originalText = this.textContent;
+                                    this.textContent = 'Copied! ✓';
+                                    setTimeout(() => {
+                                        this.textContent = originalText;
+                                    }, 2000);
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
@@ -139,44 +156,48 @@
                 </div>
 
                 <script>
-                function timer() {
-                	distance -= 1;
-			if (distance < 0) {
-				clearInterval(x);
-				window.location.href = "/archive";
-			};
+                    function timer() {
+                        distance -= 1;
+                        if (distance < 0) {
+                            clearInterval(x);
+                            window.location.href = "/game_results";
+                        };
 
-			const hours = Math.floor(distance / 3600);
-			const minutes = Math.floor(distance % 3600 / 60);
-			seconds = Math.floor(distance % 60);
+                        const hours = Math.floor(distance / 3600);
+                        const minutes = Math.floor(distance % 3600 / 60);
+                        seconds = Math.floor(distance % 60);
 
-			document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
-			document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
-			document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
-                }
+                        document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+                        document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+                        document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+                    }
 
-		distance = {{ time }};
-		timer();
-		const x = setInterval(timer, 1000);
+                    distance = {{ time }};
+                    timer();
+                    const x = setInterval(timer, 1000);
                 </script>
             </div>
 
             <div class="ctf-card p-4">
                 <h3 class="text-warning mb-4">🚨 Quick Actions</h3>
                 
-                <div class="d-grid gap-3">
-                    <button class="btn btn-danger btn-action">
-                        🚩 Submit Flag
-                    </button>
-                    <button class="btn btn-warning btn-action">
-                        💡 Request Hint (-50pts)
-                    </button>
-                    <button class="btn btn-info btn-action">
-                        📞 Call Admin
-                    </button>
-                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-3">
+                        <button class="btn btn-danger btn-action" 
+                                formaction="end_game" 
+                                type="submit">
+                            ✖ End game
+                        </button>
+                        <button class="btn btn-warning btn-action">
+                            ？ Request Hint (-50pts)
+                        </button>
+                        <button class="btn btn-info btn-action">
+                            📞 Call Admin
+                        </button>
+                    </div>
+                </form>
 
-                <!-- Прогресс -->
                 <div class="mt-4">
                     <h5 class="text-success">🎯 Objectives</h5>
                     <div class="progress">
@@ -188,7 +209,6 @@
                     </div>
                 </div>
 
-                <!-- Чат -->
                 <div class="mt-4">
                     <h5 class="text-purple">💬 Team Chat</h5>
                     <div class="chat-box">
@@ -200,117 +220,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_css %}
-<style>
-.tool-card {
-    background: rgba(25, 28, 34, 0.9);
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: transform 0.3s;
-}
-
-.tool-card:hover {
-    transform: translateY(-5px);
-}
-
-.hover-glow {
-    box-shadow: 0 0 15px rgba(0,123,255,0.2);
-}
-
-.text-mono {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.9rem;
-}
-
-.copy-group {
-    position: relative;
-}
-
-.copy-btn {
-    border-left: none;
-}
-
-.copy-btn:hover::after {
-    content: "Password: " attr(data-password);
-    position: absolute;
-    right: 0;
-    top: -30px;
-    background: #333;
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-}
-
-.chat-box {
-    height: 200px;
-    overflow-y: auto;
-    background: rgba(0,0,0,0.3);
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.message {
-    margin: 5px 0;
-    padding: 8px;
-    border-radius: 12px;
-    max-width: 80%;
-}
-
-.message.incoming {
-    background: rgba(40,167,69,0.2);
-    margin-right: auto;
-}
-
-.message.outgoing {
-    background: rgba(0,123,255,0.2);
-    margin-left: auto;
-}
-</style>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Таймер
-    function updateTimer() {
-        const timerElement = document.getElementById('timer');
-        const duration = parseInt(timerElement.dataset.duration) * 60; // в секундах
-        let secondsLeft = duration - Math.floor((Date.now() - startTime) / 1000);
-
-        if(secondsLeft <= 0) {
-            timerElement.textContent = '00:00:00';
-            return;
-        }
-
-        const hours = Math.floor(secondsLeft / 3600);
-        const minutes = Math.floor((secondsLeft % 3600) / 60);
-        const seconds = secondsLeft % 60;
-
-        timerElement.textContent = 
-            `${hours.toString().padStart(2, '0')}:` +
-            `${minutes.toString().padStart(2, '0')}:` +
-            `${seconds.toString().padStart(2, '0')}`;
-    }
-
-    const startTime = Date.now();
-    setInterval(updateTimer, 1000);
-
-    // Копирование SSH
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const input = this.parentElement.querySelector('input');
-            input.select();
-            document.execCommand('copy');
-            
-            // Показываем всплывающее уведомление
-            const originalText = this.textContent;
-            this.textContent = 'Copied! ✓';
-            setTimeout(() => {
-                this.textContent = originalText;
-            }, 2000);
-        });
-    });
-});
-</script>
 {% endblock %}

@@ -5,5 +5,8 @@ __pycache__/
 *.py[cod]
 *.env
 games/*
-web/log
+web/logs/*
 restart_docker.sh
+*.pem
+*.key
+*.crt

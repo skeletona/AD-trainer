@@ -1,86 +1,235 @@
 {% extends "base.html" %}
 
-{% block title %}Home - CTF Trainer{% endblock %}
-
 {% block content %}
-    <div class="container text-center mt-4">
-        <h1 class="display-4">A/D Trainer</h1>
-        <p class="lead">Get ready for an exciting challenge! Start training with our platform.</p>
-        <hr class="my-4">
-        <p>Begin your A/D journey</p>
-        <a class="btn btn-primary btn-lg" href="/play" role="button">Play!</a>
+<div class="overlay"></div>
+<div class="overlay glitch"></div>
+
+<!-- Hero Section -->
+<section class="d-flex align-items-center" style="height: 80vh">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-8">
+        <h1 class="display-1 fw-bold text-white mb-4 neon-text">
+          <span style="color: var(--neon-pink)">A/D</span>
+          <span style="color: var(--neon-cyan)">trainer</span>
+        </h1>
+        <p class="lead text-light mb-5 glitch-text" style="font-size: 1.5rem;">
+          ⚡ MASTER THE ART OF DIGITAL WARFARE ⚡
+        </p>
+        <a href="/play" class="btn btn-lg px-5 py-3 cyber-btn hover-glow">
+          ▶ BEGIN SIMULATION
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="cyber-gradient p-5 mb-5 position-relative">
+      <div class="row g-5 align-items-center">
+        <div class="col-md-6">
+          <div class="pe-4">
+            <span class="feature-icon mb-4">
+              <i class="fas fa-shield-alt"></i>
+            </span>
+            <h2 class="text-white mb-4 glitch-text">Dynamic Defense Training</h2>
+            <p class="text-light" style="color: #a0f1ff !important">
+              Develop real-world skills through adaptive scenarios that evolve with your progress.
+            </p>
+            <ul class="list-unstyled text-light">
+              <li class="mb-3">
+                <i class="fas fa-circle-check text-success me-2"></i>
+                Real-time vulnerability detection
+              </li>
+              <li class="mb-3">
+                <i class="fas fa-circle-check text-success me-2"></i>
+                Automated patch validation
+              </li>
+              <li class="mb-3">
+                <i class="fas fa-circle-check text-success me-2"></i>
+                Network hardening simulations
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="position-relative overflow-hidden rounded-3">
+            <div class="cyber-gradient p-4">
+              <h4 class="mb-3 glitch-text">Current Challenge</h4>
+              <p class="text-light">Secure the vulnerable API endpoint</p>
+              <div class="d-flex justify-content-between small text-muted mb-3">
+                <span>Difficulty: Advanced</span>
+                <span>Time: 24:00</span>
+              </div>
+              <button class="btn cyber-btn w-100 hover-glow">
+                JOIN CHALLENGE <i class="fas fa-arrow-right ms-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="container p-4 text-center">
-        <div class="row">
-            <div class="col-6">
-                <div class="card bg-primary" style="height: 350px;">
-                    <div class="card-header">
-                        <h4>What is CTF?</h4>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            CTF is a cybersecurity competition. Teams of 5 people solve as many tasks as possible in 24 hours. <br>
-                            Common types of tasks:<br>
-                            <div class="d-flex justify-content-center">
-                                <table>
-                                    <tr>
-                                        <td>Web</td>
-                                        <td>art of hacking websites</td>
-                                    </tr>
-                                    <tr>
-                                        <td>PWN</td>
-                                        <td>art of binary exploitation</td>
-                                        </tr>
-                                    <tr>
-                                        <td>OSINT</td>
-                                        <td>art of searching in the internet</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Forensics</td>
-                                        <td>art of investigating cybercrime</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Steganography</td>
-                                        <td>the art of hiding information</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cryptography</td>
-                                        <td>art of decrypting ciphers</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Reverse engineering</td>
-                                        <td>art of reading binary code</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        <p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="card bg-primary" style="height: 350px;">
-                    <div class="card-header"><h4>What is A/D?</h4></div>
-                    <div class="card-body">
-                    <p class="card-text">Attack-Defense is a subgenre of CTF. It's harder, but funnier.<br><br>
-                        In A/D every team has same several running services with vulnarabilities.
-                        Teams find vulnarabilities, fix them in their services and write exploits to hack other's services.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="cyber-divider"></div>
 
-    <div class="card bg-primary m-4 text-center" style="height: 200px;">
-        <div class="card-header">
-            <h4>What is A/D trainer?</h4>
+    <div class="row g-4">
+      <!-- Feature Cards -->
+      <div class="col-md-4">
+        <div class="p-4 hover-glow cyber-gradient h-100">
+          <i class="feature-icon mb-4">
+            <i class="fas fa-bug"></i>
+          </i>
+          <h4 class="text-white mb-3 glitch-text">Exploit Development</h4>
+          <p class="text-light">
+            Learn to identify and weaponize vulnerabilities
+          </p>
+          <div class="mt-4">
+            <span class="badge cyber-badge me-2">Buffer Overflows</span>
+            <span class="badge cyber-badge">ROP Chains</span>
+          </div>
         </div>
-        <div class="card-body">
-            <p class="card-text">
-                A/D trainer lets you play A/D without friends, teams, at any time and where you want.<br> 
-                If you want to prepare for an A/D competition, you are in the right place.<br>
-                It's basically a simulation of a real game, only for you.
-            <p>
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-4 hover-glow cyber-gradient h-100">
+          <i class="feature-icon mb-4">
+            <i class="fas fa-network-wired"></i>
+          </i>
+          <h4 class="text-white mb-3 glitch-text">Network Analysis</h4>
+          <p class="text-light">
+            Master traffic inspection and protocol reverse engineering
+          </p>
+          <div class="mt-4">
+            <span class="badge cyber-badge me-2">PCAP Analysis</span>
+            <span class="badge cyber-badge">MITM Attacks</span>
+          </div>
         </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-4 hover-glow cyber-gradient h-100">
+          <i class="feature-icon mb-4">
+            <i class="fas fa-lock"></i>
+          </i>
+          <h4 class="text-white mb-3 glitch-text">Cryptography</h4>
+          <p class="text-light">
+            Modern cryptographic challenges and side-channel attacks
+          </p>
+          <div class="mt-4">
+            <span class="badge cyber-badge me-2">RSA</span>
+            <span class="badge cyber-badge">AES-GCM</span>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="bg-dark py-5">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-md-3">
+        <div class="p-3 cyber-gradient hover-glow">
+          <h3 class="text-primary mb-0 glitch-text">1500+</h3>
+          <p class="text-light mb-0">Challenges</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="p-3 cyber-gradient hover-glow">
+          <h3 class="text-primary mb-0 glitch-text">24/7</h3>
+          <p class="text-light mb-0">Live Events</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="p-3 cyber-gradient hover-glow">
+          <h3 class="text-primary mb-0 glitch-text">98%</h3>
+          <p class="text-light mb-0">Accuracy</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="p-3 cyber-gradient hover-glow">
+          <h3 class="text-primary mb-0 glitch-text">50+</h3>
+          <p class="text-light mb-0">Scenarios</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+      :root {
+      --neon-blue: #4dabff;
+      --neon-purple: #bc13fe;
+      --matrix-green: #0f0;
+    }
+
+    .cyber-gradient {
+      background: linear-gradient(135deg, 
+        rgba(16, 16, 32, 0.95) 0%, 
+        rgba(32, 16, 48, 0.9) 100%);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      border: 1px solid rgba(77, 171, 255, 0.2);
+    }
+
+    .hover-glow {
+      transition: all 0.3s ease;
+    }
+
+    .hover-glow:hover {
+      box-shadow: 0 0 30px rgba(77, 171, 255, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .neon-text {
+      text-shadow: 0 0 10px var(--neon-blue),
+                  0 0 20px var(--neon-blue);
+    }
+
+    .cyber-divider {
+      height: 2px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--neon-blue) 50%, 
+        transparent 100%);
+      margin: 2rem 0;
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      background: linear-gradient(45deg, #4dabff, #bc13fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    background-size: 5px 5px;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    mix-blend-mode: difference;
+    pointer-events: none;
+  }
+
+  .glitch {
+    clip-path: polygon(0 0, 100% 0, 100% .5em, 0 .5em);
+    animation: glitch 10s linear infinite;
+    transform: translatex(.1rem);
+  }
+
+  @keyframes glitch {
+    to {
+      clip-path: polygon(0 calc(100% - .5em), 100% calc(100% - .5em), 0 100%, 0 100%)
+    }
+  }
+</style>
 {% endblock %}

@@ -1,8 +1,26 @@
 {% extends "base.html" %}
-
 {% block content %}
-
 {% if user.is_authenticated %}
+
+<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+    <input type="checkbox" class="btn-check" id="bluwal" autocomplete="off" name="service">
+    <label class="btn btn-primary" for="bluwal">Bluwal</label>
+    <input type="checkbox" class="btn-check" id="explorers" autocomplete="off" name="service">
+    <label class="btn btn-primary" for="explorers">Explorers</label>
+    <input type="checkbox" class="btn-check" id="neftetochka" autocomplete="off" name="service">
+    <label class="btn btn-primary" for="neftetochka">Neftetochka</label>
+    <input type="checkbox" class="btn-check" id="oilmarket" autocomplete="off" name="service">
+    <label class="btn btn-primary" for="oilmarket">oilmarket</label>
+</div>
+
+<div class="col-md-1">
+    <label class="col-form-label mt-4" for="time">Game guration:</label>
+    <div class="d-flex gap-2">
+        <input type="number" class="form-control my-1" placeholder="hrs" style="-webkit-appearance: textfield" id="hours" title="Hours">
+        <input type="number" class="form-control my-1" placeholder="min" style="-webkit-appearance: textfield" id="minutes" title="Minutes">
+    </div>
+</div>
+
 <div class="container mt-5">
     <div id="game-container" class="text-center">
         <h2>Ready?</h2>
@@ -19,22 +37,38 @@
 <script>
     let ws;
 
+    function getServices() {
+        const checkboxes = document.querySelectorAll('input[name="service"]:checked');
+        return Array.from(checkboxes).map(checkbox => checkbox.id);
+    }
+
+    function getTime() {
+        const hours = document.getElementById('hours');
+        const minutes = document.getElementById('minutes');
+        return hours.value * 60 + minutes;
+    }
+
     function startWebSocket() {
         const output = document.getElementById('output');
-        
-        ws = new WebSocket('ws://' + window.location.host + '/ws');
+        output.innerHTML = ``;
+        ws = new WebSocket('ws://' + window.location.host + '/ws?services=' + encodeURIComponent(getServices().join(',')) + '&time=' + getTime());
         
         ws.onmessage = (event) => {
             if (event.data === 'Success!') {
                 ws.close();
-                output.innerHTML += `<p>Game started! Redirecting to</p>`;
+                output.innerHTML += `<p class="text-success">Game started! Redirecting to</p>`;
                 output.innerHTML += `<a href='/game'>/game</a>`;
                 window.location.href = '/game';
+            } else if (event.data.includes('Error')) {
+                ws.close()
+                output.innerHTML += `<p class="text-danger">${event.data}</p>`;
+            } else {
+                output.innerHTML += `<p>${event.data}</p>`;
             }
-            output.innerHTML += `<p>${event.data}</p>`;
         };
 
         ws.onerror = () => {
+            ws.close()
             output.innerHTML += `<p class="text-danger">Something went wrong, connection closed</p>`
         }
     }

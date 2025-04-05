@@ -12,3 +12,8 @@ if [ -f /tmp/images.tar ]; then
 	docker load -i /tmp/images.tar
 	rm /tmp/images.tar
 fi
+
+for service in $(echo services/*);	do
+	docker-compose -f $service/docker-compose.yml create
+	docker-compose -f $service/docker-compose.yml create
+done
